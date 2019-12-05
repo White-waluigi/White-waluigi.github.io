@@ -2,7 +2,7 @@ class Tools{
 	static getMoneyTable(d){
 		var values=Object.values(d.stocks)
 			.map(
-				p => [p.stock.id,Math.floor(p.amount*p.stock.getPrice(d.date))]
+				p => [p.stock.text,Math.floor(p.amount*p.stock.getPrice(d.date))]
 			)
 		values.unshift(["cash",Math.floor(d.cash)])
 		values.push(["total",Math.floor(d.getValue())])
