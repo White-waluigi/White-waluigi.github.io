@@ -41,7 +41,6 @@ class Investor{
 			investor.portfolio.invest(market.getStock("BANK",date),money)
 		}))
 		x.push(new Investor("Winston",function(investor,date,money){	
-			console.log(investor.preferred)
 
 			if(investor.preferred==undefined)
 				investor.preferred=market.getRandomStock(date)
@@ -49,7 +48,6 @@ class Investor{
 		}))
 
 		x.push(new Investor("Ludwig",function(investor,date,money){	
-			console.log(investor.preferred)
 
 			if(investor.preferred==undefined||Math.random()<.1)
 				investor.preferred=market.getRandomStock(date)

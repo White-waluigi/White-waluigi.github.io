@@ -103,6 +103,7 @@ class LineGraph{
 					trigger:"hover"
 				})
 			})
+		$("#loading").remove()
 	}
 	drawGraph(pf){
 		this.drawAxis(pf)
