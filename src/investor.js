@@ -19,9 +19,9 @@ class Investor{
 
 			var savings=this.portfolio.collectPaycheck()
 			//			this.portfolio.invest(market.getRandomStock(from),10000)
-			this.strategy(this,from,10000)
-
 			this.portfolio.collectDividends()
+			this.strategy(this,from,this.portfolio.cash)
+
 
 			dataset.push(this.portfolio.clone())
 			var temp=date.clone()

@@ -21,7 +21,7 @@ class Portfolio{
 		if(this.stocks[stock.id].stock!==stock)
 			alert("wrong stock")
 		if(this.cash<money)
-			alert("overdraw")
+			throw "overdraw"
 
 		var amnt=money/stock.getPrice(this.date);
 		var neww={stock:old.stock,amount:old.amount+amnt}
@@ -36,8 +36,9 @@ class Portfolio{
 		return 10000
 	}
 	collectDividends(){
-		for(let x of this.stocks){
-			this.cash+=x.stock.getDividend(this.date)*x.amount;
+		for(let x in this.stocks){
+			x=this.stocks[x]
+			this.cash+=x.stock.getDividend(this.date)*x.amount
 		}
 	}
 	getValue(){

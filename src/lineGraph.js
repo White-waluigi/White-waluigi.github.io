@@ -73,11 +73,20 @@ class LineGraph{
 
 		var c=["red","green","blue","black"]
 		for(let x of pf){
-			svg.append("path")
+			var path=svg.append("path")
 				.datum(x) // 10. Binds data to the line 
 				.attr("class", "line") // Assign a class for styling 
-				.attr("d", line) // 11. Calls the line generator 
 				.attr("stroke",c.pop())
+				.attr("d",line)
+			var totalLength = path.node().getTotalLength();
+			path
+				.attr("stroke-dasharray", totalLength + " " + totalLength)
+				.attr("stroke-dashoffset", totalLength)
+				.transition()
+				.duration(4000)
+				.ease(d3.easeLinear)
+				.attr("stroke-dashoffset", 0)
+
 
 		}
 		var x=pf.flat(1);

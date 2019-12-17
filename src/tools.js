@@ -1,11 +1,12 @@
 class Tools{
+	//
 	static getMoneyTable(d){
 		var values=Object.values(d.stocks)
 			.map(
-				p => [p.stock.text,Math.floor(p.amount*p.stock.getPrice(d.date))]
+				p => [p.stock.text,Tools.getAbb(p.amount*p.stock.getPrice(d.date))]
 			)
-		values.unshift(["cash",Math.floor(d.cash)])
-		values.push(["total",Math.floor(d.getValue())])
+		values.unshift(["cash",Tools.getAbb(d.cash)])
+		values.push(["total",Tools.getAbb(d.getValue())])
 
 		var str="<table>"
 		str+= values.reduce(
@@ -15,4 +16,22 @@ class Tools{
 		str+="</table>gay"
 		return $(str);
 	}
+	static getAbb(value){
+		value=Math.floor(value)
+		var newValue = value;
+		if (value >= 1000) {
+			var suffixes = ["", "K", "M", "B","T"];
+			var suffixNum = Math.floor( (""+value).length/3 );
+			var shortValue = '';
+			for (var precision = 2; precision >= 1; precision--) {
+				shortValue = parseFloat( (suffixNum != 0 ? (value / Math.pow(1000,suffixNum) ) : value).toPrecision(precision));
+				var dotLessShortValue = (shortValue + '').replace(/[^a-zA-Z 0-9]+/g,'');
+				if (dotLessShortValue.length <= 2) { break; }
+			}
+			if (shortValue % 1 != 0)  shortValue = shortValue.toFixed(1);
+			newValue = shortValue+suffixes[suffixNum];
+		}
+		return newValue;
+	}
+
 }
