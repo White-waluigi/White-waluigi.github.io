@@ -2,6 +2,7 @@ class LineGraph{
 
 	constructor(){
 		market=new Market(this)
+		this.ready=false
 	}
 	start(){
 
@@ -10,15 +11,21 @@ class LineGraph{
 			portfolios.push(d.doInvestments(moment("1975-01-01"),moment("2020-01-02")))
 		})
 
+
 		this.drawGraph(portfolios)
 
+		this.pf=portfolios
+		this.ready=true;
 	}
-	drawAxis(pf){
+	drawGraph(pf){
+
+		$("#my_dataviz").empty()
+
 
 		// 2. Use the margin convention practice 
 		var margin = {top: 40, right: 40, bottom: 40, left: 40}
-			, width =	1100 
-			, height =	500 ;
+			, width =	$("#my_dataviz").width()-80
+			, height =	$("#my_dataviz").height()-80
 
 		//same for every graph, 45 years of work
 		var n = pf[0].length;
@@ -31,14 +38,15 @@ class LineGraph{
 		},0)
 
 		// 5. X scale will use the index of our data
-		var xScale = d3.scaleLinear()
+		var xScale = d3.scaleTime()
 			.domain([new Date("1975-01-01"),new Date("2020-01-01")])
 			.range([60, width]); // output
 
 		// 6. Y scale will use the randomly generate number 
+
 		var yScale = d3.scaleLinear()
 			.domain([0,max])
-			.range([height, 0]); // output 
+			.range([height, 40]) // output 
 
 		// 7. d3's line generator
 
@@ -53,7 +61,6 @@ class LineGraph{
 
 
 		var xAxis = d3.axisBottom(xScale)
-			.tickFormat(d3.timeFormat("%Y"))
 		// 3. Call the x axis in a group tag
 		svg.append("g")
 			.attr("class", "x axis")
@@ -64,19 +71,19 @@ class LineGraph{
 		svg.append("g")
 			.attr("class", "y axis")
 			.attr("transform", "translate(60,0)")
-			.call(d3.axisLeft(yScale)); // Create an axis component with d3.axisLeft
+			.call(d3.axisLeft(yScale).tickFormat(Tools.getAbb)); // Create an axis component with d3.axisLeft
 
 		var svg = d3.select("#mainGraph")
 		var line = d3.line()
 			.x(function(d, i) {return xScale(d.date.toDate()); }) // set the x values for the line generator
 			.y(function(d) { return yScale(d.getValue()); }) // set the y values for the line generator 
 
-		var c=["red","green","blue","black"]
+
 		for(let x of pf){
 			var path=svg.append("path")
 				.datum(x) // 10. Binds data to the line 
 				.attr("class", "line") // Assign a class for styling 
-				.attr("stroke",c.pop())
+				.attr("stroke",a=>a[0].owner.color)
 				.attr("d",line)
 			var totalLength = path.node().getTotalLength();
 			path
@@ -86,39 +93,63 @@ class LineGraph{
 				.duration(4000)
 				.ease(d3.easeLinear)
 				.attr("stroke-dashoffset", 0)
-
-
 		}
-		var x=pf.flat(1);
+		var x = pf.flat(1)
+		var occ = []
 		// 12. Appends a circle for each datapoint 
-		svg.selectAll(".dot")
+		var dots = svg.selectAll(".dot")
 			.data(x)
-			.enter().append("circle") // Uses the enter().append() method
+			.enter()
+			.append("circle") // Uses the enter().append() method
+			.style("fill",a=>a.owner.color)
 			.attr("class", "dot") // Assign a class for styling
-			.attr("cx", function(d,i) { return xScale(d.date.toDate()) })
-			.attr("cy", function(d) {return yScale(d.getValue()) })
-			.attr("data-booked","true")
+			.attr("cx", function(d, i) {
+				return xScale(d.date.toDate())
+			})
+			.attr("cy", function(d) {
+				var x=yScale(d.getValue())
+
+				if(occ[d.date.toDate()]==undefined)
+					occ[d.date.toDate()]=[]
+
+				var ctv=1
+				while(occ[d.date.toDate()].some(a=>Math.abs(a-x)<6) ){
+					x-=1;
+				}
+
+				occ[d.date.toDate()].push(x);
+				return x; 
+			})
+			.attr("data-booked", "true")
 			.attr("r", 6)
-			.on("mouseover", function(a, b, c) { 
+			.attr("opacity", "0")
+			.on("mouseover", function(a, b, c) {
 				d3.select(this).attr('class', 'focus')
 			})
 			.on("mouseout", function() {
 				d3.select(this).attr('class', 'dot')
-			}).each(function(d,i){
-				$(this).popover({ 
-					html: true,
-					title: d.owner.name+":"+d.date.format("MMMM YYYY"), 
-					content: Tools.getMoneyTable(d),
-					trigger:"hover"
-				})
-			})
-		$("#loading").remove()
+			});
+
+		dots.transition()
+			.duration(0)
+			.delay((d, i) => (xScale(d.date.toDate()) / width) * 4000)
+			.attr("opacity", "1");
+
+
+		dots.each(function(d, i) {
+			$(this).popover({
+				html: true,
+				title: d.owner.name + ":" + d.date.format("MMMM YYYY"), content: Tools.getMoneyTable(d), trigger: "hover" }) }) 
 	}
-	drawGraph(pf){
-		this.drawAxis(pf)
-	}
+
 }
 var lineGraph
 $(document).ready(function() {
+	
 	lineGraph=new LineGraph()
+	window.onresize=function(){
+		if(lineGraph.ready)
+			lineGraph.drawGraph(lineGraph.pf)
+	}
+
 })

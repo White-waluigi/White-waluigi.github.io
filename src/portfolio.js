@@ -32,13 +32,16 @@ class Portfolio{
 	}
 
 	collectPaycheck(){
-		this.cash+=10000
+		var d=market.getStock("INFLATION")
+		this.cash+=d.getPrice(this.date)*10000
 		return 10000
 	}
 	collectDividends(){
 		for(let x in this.stocks){
 			x=this.stocks[x]
-			this.cash+=x.stock.getDividend(this.date)*x.amount
+			var ca =x.stock.getDividend(this.date)*x.amount
+			this.cash+=ca
+			this.invest(x.stock,ca)
 		}
 	}
 	getValue(){

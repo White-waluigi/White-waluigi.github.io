@@ -2,13 +2,14 @@ var market
 
 class Market{
 
+
 	constructor(){
 		this.loadStocks()
 	}
 
 	getRandomStock(date){
 		var stock=null
-		while(stock==null || stock.start>date || stock.id=="BANK")
+		while(stock==null || stock.start>date || stock.id=="BANK" || stock.id=="INFLATION")
 		{
 			var keys = Object.keys(this.stocks)
 			stock= this.stocks[keys[ keys.length * Math.random() << 0]];

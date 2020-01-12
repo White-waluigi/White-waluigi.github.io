@@ -13,12 +13,10 @@
 
 /* Style the dots by assigning a fill and stroke */
 .dot {
-	fill: grey;
-	stroke: #fff;
 }
 
 .focus circle {
-	fill: none;
-	stroke: steelblue;
+	fill: grey;
 }
 
+.

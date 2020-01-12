@@ -1,11 +1,10 @@
 class Investor{
-
-
-	constructor(name,strategy){
+	constructor(c,name,strategy){
 		this.strategy=strategy
 		this.name=name
 		this.portfolio=new Portfolio(undefined,this)
 		this.name=name
+		this.color=c;
 	}
 
 
@@ -22,7 +21,6 @@ class Investor{
 			this.portfolio.collectDividends()
 			this.strategy(this,from,this.portfolio.cash)
 
-
 			dataset.push(this.portfolio.clone())
 			var temp=date.clone()
 
@@ -37,23 +35,23 @@ class Investor{
 		var x=[]
 
 
-		x.push(new Investor("Constantin",function(investor,date,money){	
+		x.push(new Investor("black","Constantin",function(investor,date,money){	
 			investor.portfolio.invest(market.getStock("BANK",date),money)
 		}))
-		x.push(new Investor("Winston",function(investor,date,money){	
+		x.push(new Investor("red","Winston",function(investor,date,money){	
 
 			if(investor.preferred==undefined)
 				investor.preferred=market.getRandomStock(date)
 			investor.portfolio.invest(investor.preferred,money)
 		}))
 
-		x.push(new Investor("Ludwig",function(investor,date,money){	
+		x.push(new Investor("blue","Ludwig",function(investor,date,money){	
 
 			if(investor.preferred==undefined||Math.random()<.1)
 				investor.preferred=market.getRandomStock(date)
 			investor.portfolio.invest(investor.preferred,money)
 		}))
-		x.push(new Investor("Gamble",function(investor,date,money){	
+		x.push(new Investor("green","Gamble",function(investor,date,money){	
 			investor.portfolio.invest(market.getRandomStock(date),money)
 		}))
 		return x

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="de">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Investment Simulator</title>
+		<script src="lib/jquery.js"></script> 
+		<script src="lib/popper.js"></script>
+		<script src="lib/bootstrap.js"></script>
+		<script src="lib/d3.js"></script>
+		<script src="lib/moment.js"></script>
+
+
+		<script src="src/market.js"></script>
+		<script src="src/investor.js"></script>
+		<script src="src/lineGraph.js"></script>
+		<script src="src/portfolio.js"></script>
+		<script src="src/stock.js"></script>
+		<script src="src/tools.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="lib/bootstrap.css">	
+		<link rel="stylesheet" type="text/css" href="lib/main.css">	
+	</head>
+
+	<body>
+
+
+		<main role="main">
+
+			<section class="jumbotron text-center">
+				<div class="container">
+					<h1 class="jumbotron-heading">Lifetime Stock Investment</h1>
+					<p class="lead text-muted">
+
+					Have you ever wondered what would happen if you invested your entire savings into the stock market for a few decades?
+					This website documents the investment histories of 4 people; Gamble, Winston, Ludwig and Constantin. They are very similar people
+					earning very similar amounts of money and having the same amount of savings.</br>
+					Each of them saves 10000$ a year adjusted for inflation in 2020 for a better life after their retirement.<br/><br/>
+					Constantin decides to deposit it on his bank account and just profiting of of banking interest.<br/>
+					Gamble invests in new stocks every year.<br/>
+					Ludwig invests in new stocks 10% of the time<br/>
+					Winston picks a stock once and sticks to it for his entire career<br/>
+
+					</p>
+				</div>
+
+				<div id="my_dataviz" width="100%" height="100" ><div id="loading">loading</div></div>	
+
+				<h1 class="jumbotron-heading">Idea</h1>
+				<p class="lead text-muted">
+
+				The idea behind this project is to analyze different investing strategies and simulate a potential Investment history using personal savings using historical data. 
+				In general the banking system is pitted against 3 (or more) stock market investment strategies.
+				Especially in the current time of unsafe retirement planning, it might make sense to look at the stock market as a possible pension option. 
+				</p>
+				<h1 class="jumbotron-heading">Data</h1>
+				<p class="lead text-muted">
+
+				The Data consists of the stock and dividend histories of Dow Jones components which consist of the biggest and most commonly invested stocks, to avoid survivor bias.
+				By using a market index as a starting point, the potential stock success is free from biases, which might appear by simply randomly choosing companies that are big today, such as Apple or Microsoft.
+				The historical Dow Jones components are taken from 
+				<a href="https://web.archive.org/web/20130603090457/http://www.dowjones.com/history.asp">Dow Jones History</a>
+				and the historical stock data from them were downloaded and processed from 
+				<a href="https://finance.yahoo.com/">Yahoo Finance</a> using an automated script.
+				currently the site contains stocks from 35 companies.
+				</p>
+				<h1 class="jumbotron-heading">Tools</h1>
+				<p class="lead text-muted">
+
+				The website is running on Github Pages directly from the repository.
+				The website was developed using apache and written with vim.
+				Libraries used are bootstrap for visuals and popovers, D3 for data processing and moment.js for better datekeeping.
+				</p>
+
+				<h1 class="jumbotron-heading">Simulation</h1>
+				<p class="lead text-muted">
+
+				The site works by first loading all stocks into a market.
+				Then potential stock histories for all 4 investors using different strategies are generated client side.
+				Each Investor invests his savings yearly into stocks.
+				The results are then graphed on the Website by the net worth of the investors over time
+				</p>
+				<h1 class="jumbotron-heading">Use</h1>
+				<p class="lead text-muted">
+				The tool can be used to test and compare different investment startegies or even as advertisment for brokerfirms.
+				It also displays the benefits of long term investing in a way that anybody can understand them.
+				</p>
+				<h1 class="jumbotron-heading">Implemented Features</h1>
+				<p class="lead text-muted">
+				Currently, the basic features of the site work and the groundwork has been laid. So far about 30% of planned features are implemented.
+				Over the next few weeks all of the planned features will be implemented with further ideas hopefully being implemented during winter break.
+
+				<ul  class="lead text-muted">
+					<li>Market System</li>
+					<li>Investment Strategies</li>
+					<li>Portfolio system</li>
+					<li>Portfolio graphing</li>
+					<li>Portfolio popover summary</li>
+					<li>Stock data provider</li>
+					<li>Net Worth calculator</li>
+					<li>Site Look and feel</li>
+				</ul>
+
+				</p>
+
+
+				<h1 class="jumbotron-heading">Planned Features</h1>
+				<ul class="lead text-muted">
+					<li>Dividend Payments</li>
+					<li>Banking interest</li>
+					<li>Income being adjusted for Inflation</li>
+					<li>More Stocks using DAX, S&P 500 and other market indexes</li>
+					<li>A way to avoid overlapping circles for popover</li>
+					<li>Better automated stock download tools</li>
+					<li>Indication of global events (stock market crash, fall of berlin wall, end of cold war, 9/11, Vietnam War, etc)</li>
+					<li>Rerun Button</li>
+					<li>Display full Portfolio every time</li>
+
+				</ul>
+				<h1 class="jumbotron-heading">Further Ideas</h1>
+				<ul class="lead text-muted">
+					<li>Displaying each years wins and losses in the portfolio popover</li>
+					<li>Japanese Candlestick graph alternative view</li>
+					<li>Dividend Automatic Reinvestment</li>
+					<li>Second Graph that displays averaged results over 10'000 iterations (this will not be run on client side, but simulated using node.js and then cached and uploaded to the server)</li>
+					<li>Customizable Simulations (setting custom stocks or adjusting existing strategies)</li>
+					<li>Optimizing history generator</li>
+				</ul>
+
+			</section>
+
+
+		</main>
+
+		<footer class="text-muted">
+			<div class="container">
+				<p class="float-right">
+				<a href="#">Back to top</a>
+				</p>
+				<p>Marvin Wyss 2019</p>
+				<p>Questions? Send an <a href="mailto: marvin.wyss1@students.fhnw.ch">email</a> </p>
+			</div>
+		</footer>
+	</body>
+</html>
