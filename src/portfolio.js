@@ -12,9 +12,9 @@ class Portfolio{
 		}
 	}
 
-	invest(stock,money){
+	invest(stock,money,dividend){
 		if (typeof this.stocks[stock.id] === 'undefined') 
-			this.stocks[stock.id]={stock:stock , amount:0}
+			this.stocks[stock.id]={stock:stock , amount:0,old:0 ,gain:0}
 
 
 		var old=this.stocks[stock.id]
@@ -24,7 +24,12 @@ class Portfolio{
 			throw "overdraw"
 
 		var amnt=money/stock.getPrice(this.date);
-		var neww={stock:old.stock,amount:old.amount+amnt}
+		var neww={stock:old.stock,amount:old.amount+amnt,invested:0,old:old.old,gain:old.gain}
+		if(!dividend)
+			neww.invested=money
+		//neww.oldval=neww.amount*stock.getPrice(this.date)
+		
+
 		this.stocks[stock.id]=neww
 		this.cash-=money
 		//this.stocks[stock]+=amount/stock.getPrice(date)
@@ -37,11 +42,22 @@ class Portfolio{
 		return 10000
 	}
 	collectDividends(){
-		for(let x in this.stocks){
-			x=this.stocks[x]
+
+
+		for(let xx in this.stocks){
+			
+
+			var x=this.stocks[xx]
+
 			var ca =x.stock.getDividend(this.date)*x.amount
 			this.cash+=ca
-			this.invest(x.stock,ca)
+
+			
+			this.invest(x.stock,ca,true)
+
+			var val=x.amount*x.stock.getPrice(this.date)
+			this.stocks[xx].gain=val-x.old
+			this.stocks[xx].old=val
 		}
 	}
 	getValue(){

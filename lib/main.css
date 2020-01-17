@@ -19,4 +19,13 @@
 	fill: grey;
 }
 
-.
+.popover{
+    max-width: 100%; /* Max Width of the popover (depending on the container!) */
+}
+td{
+	padding-left:10px;
+}
+html, 
+body {
+    height: 100%;
+}

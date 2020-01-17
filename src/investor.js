@@ -36,9 +36,9 @@ class Investor{
 
 
 		x.push(new Investor("black","Constantin",function(investor,date,money){	
-			investor.portfolio.invest(market.getStock("BANK",date),money)
+			investor.portfolio.invest(market.getStock("BANK",date),money,false)
 		}))
-		x.push(new Investor("red","Winston",function(investor,date,money){	
+		x.push(new Investor("red","Gamble",function(investor,date,money){	
 
 			if(investor.preferred==undefined)
 				investor.preferred=market.getRandomStock(date)
@@ -49,10 +49,10 @@ class Investor{
 
 			if(investor.preferred==undefined||Math.random()<.1)
 				investor.preferred=market.getRandomStock(date)
-			investor.portfolio.invest(investor.preferred,money)
+			investor.portfolio.invest(investor.preferred,money,false)
 		}))
-		x.push(new Investor("green","Gamble",function(investor,date,money){	
-			investor.portfolio.invest(market.getRandomStock(date),money)
+		x.push(new Investor("green","Winston",function(investor,date,money){	
+			investor.portfolio.invest(market.getRandomStock(date),money,false)
 		}))
 		return x
 
